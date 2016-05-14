@@ -164,10 +164,10 @@
 	//	scan result
 	BLEDeviceClass*	newDevice = [[BLEDeviceClass alloc] initWithPeripheral:peripheral advertisement:advertisementData RSSI:RSSI];
 	for (BLEDeviceClass* Device in _Devices)	{
-				if (memcmp((__bridge const void *)(Device.peripheral), (__bridge const void *)(peripheral), 16) == 0)	{
-			[_Devices removeObject:Device];
-		}
-	}
+        if (memcmp((__bridge const void *)(Device.peripheral), (__bridge const void *)(peripheral), 16) == 0)	{
+             [_Devices removeObject:Device];
+        }
+    }
 	[_Devices addObject:newDevice];
 }
 

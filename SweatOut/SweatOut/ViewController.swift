@@ -21,22 +21,21 @@ class ViewController: UIViewController, BLEDeviceClassDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+
         blBase.scanDevices(nil)
         blDevice = nil
-        
-        connect()
     }
     
     @IBAction func tappedButton(sender: AnyObject) {
-        let tweetView = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
-        
-        tweetView.setInitialText("Twitter Test from Swift")
-        
+        self.connect()
+
+//        let tweetView = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
+//
+//        tweetView.setInitialText("Twitter Test from Swift")
+//        
 //        myComposeView.addImage(UIImage(named: "oouchi.jpg"))
-        // myComposeViewの画面遷移.
-        self.presentViewController(tweetView, animated: true, completion: nil)
+//        // myComposeViewの画面遷移.
+//        self.presentViewController(tweetView, animated: true, completion: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -82,15 +81,16 @@ class ViewController: UIViewController, BLEDeviceClassDelegate {
             let rx = vld.getCharacteristic(uuidVspService, characteristic: uuidRX)
             
             if characteristic == rx {
-                var buf = characteristic.value?.bytes
+                let _ = characteristic.value?.bytes
                 return
             }
             
             let tx = vld.getCharacteristic(uuidVspService, characteristic: uuidTX)
             if characteristic == tx {
-                var buf = characteristic.value?.bytes
-                //            buf[0]
-                return
+                guard let data = characteristic.value else { return }
+                var bytes = [UInt8](count:data.length, repeatedValue:0)
+                data.getBytes(&bytes, length:data.length)
+                print(bytes[0])
             }
         }
     }
