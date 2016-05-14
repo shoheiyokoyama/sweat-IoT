@@ -51,7 +51,7 @@ class ViewController: UIViewController, BLEDeviceClassDelegate {
         if (blDevice != nil) {
             //	UUID_DEMO_SERVICEサービスを持っているデバイスから切断する
             blBase.disconnectService(uuidVspService)
-            blBase = nil
+            blDevice = nil
             //	周りのBLEデバイスからのadvertise情報のスキャンを開始する
             blBase.scanDevices(nil)
         }
