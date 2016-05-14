@@ -103,7 +103,7 @@
 
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
 {
-	[_delegate didUpdateValueForCharacteristic:self Characteristic:characteristic];
+	[_delegate didUpdateValueForCharacteristic:self characteristic:characteristic];
 }
 
 @end

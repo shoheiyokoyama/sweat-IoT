@@ -13,7 +13,7 @@
 @class BLEDeviceClass;
 
 @protocol BLEDeviceClassDelegate
-- (void)didUpdateValueForCharacteristic:(BLEDeviceClass*)device Characteristic:(CBCharacteristic *)characteristic;
+- (void)didUpdateValueForCharacteristic:(BLEDeviceClass*)device characteristic:(CBCharacteristic *)characteristic;
 @end
 
 @interface BLEDeviceClass : NSObject
