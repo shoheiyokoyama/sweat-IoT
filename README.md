@@ -5,5 +5,5 @@
 * Yoshifumi
 * Takuro
 
-## supponser
-- miwako kakei
+## Sponsor
+- Miwako Kakei
