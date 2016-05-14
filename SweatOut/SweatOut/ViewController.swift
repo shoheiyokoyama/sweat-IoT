@@ -25,6 +25,8 @@ class ViewController: UIViewController, BLEDeviceClassDelegate {
         
         blBase.scanDevices(nil)
         blDevice = nil
+        
+        connect()
     }
     
     @IBAction func tappedButton(sender: AnyObject) {
@@ -36,7 +38,6 @@ class ViewController: UIViewController, BLEDeviceClassDelegate {
         // myComposeViewの画面遷移.
         self.presentViewController(tweetView, animated: true, completion: nil)
     }
-    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
