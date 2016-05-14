@@ -74,7 +74,7 @@ class ViewController: UIViewController, BLEDeviceClassDelegate {
             
             let tx = vld.getCharacteristic(uuidVspService, characteristic: uuidTX)
             if characteristic == tx {
-                var buf = vld.getCharacteristic(uuidVspService, characteristic: uuidTX)
+                var buf = characteristic.value?.bytes
                 //            buf[0]
                 return
             }
