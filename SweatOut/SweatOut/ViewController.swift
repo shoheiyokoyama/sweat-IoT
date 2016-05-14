@@ -9,6 +9,7 @@
 import UIKit
 import CoreBluetooth
 import Social
+import FillableLoaders
 
 class ViewController: UIViewController, BLEDeviceClassDelegate {
 
@@ -24,6 +25,20 @@ class ViewController: UIViewController, BLEDeviceClassDelegate {
 
         blBase.scanDevices(nil)
         blDevice = nil
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        let path = CGPathCreateMutable()
+        CGPathMoveToPoint(path, nil, 50, 50)
+        CGPathAddLineToPoint(path, nil, 70, 200)
+        CGPathAddLineToPoint(path, nil, 170, 200)
+        CGPathAddLineToPoint(path, nil, 190, 50)
+        CGPathAddLineToPoint(path, nil, 50, 50)
+        CGPathCloseSubpath(path)
+
+        let loader = WavesLoader.createLoaderWithPath(path: path)
+        loader.loaderColor = UIColor.blueColor()
+        loader.showLoader()
     }
     
     @IBAction func tappedButton(sender: AnyObject) {
