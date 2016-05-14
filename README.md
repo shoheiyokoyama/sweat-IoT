@@ -2,5 +2,5 @@
 ## Member
 * Haruki
 * Shohei
-* Yoshifumi
+* Yoshio
 * Takuro
