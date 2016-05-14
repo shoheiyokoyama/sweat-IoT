@@ -13,6 +13,7 @@
 		3C292E7E1CE6DD810053E5B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C292E7D1CE6DD810053E5B5 /* Assets.xcassets */; };
 		3C292E811CE6DD810053E5B5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C292E7F1CE6DD810053E5B5 /* LaunchScreen.storyboard */; };
 		3C292E8C1CE6DD810053E5B5 /* SweatOutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C292E8B1CE6DD810053E5B5 /* SweatOutTests.swift */; };
+		6D01CD1B1CE71B990006A672 /* BLEBaseClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D01CD1A1CE71B990006A672 /* BLEBaseClass.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +37,9 @@
 		3C292E871CE6DD810053E5B5 /* SweatOutTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SweatOutTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C292E8B1CE6DD810053E5B5 /* SweatOutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SweatOutTests.swift; sourceTree = "<group>"; };
 		3C292E8D1CE6DD810053E5B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6D01CD181CE71B8A0006A672 /* BLEBaseClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLEBaseClass.h; sourceTree = "<group>"; };
+		6D01CD191CE71B990006A672 /* SweatOut-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SweatOut-Bridging-Header.h"; sourceTree = "<group>"; };
+		6D01CD1A1CE71B990006A672 /* BLEBaseClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLEBaseClass.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,10 +83,13 @@
 			children = (
 				3C292E761CE6DD800053E5B5 /* AppDelegate.swift */,
 				3C292E781CE6DD800053E5B5 /* ViewController.swift */,
+				6D01CD181CE71B8A0006A672 /* BLEBaseClass.h */,
+				6D01CD1A1CE71B990006A672 /* BLEBaseClass.m */,
 				3C292E7A1CE6DD810053E5B5 /* Main.storyboard */,
 				3C292E7D1CE6DD810053E5B5 /* Assets.xcassets */,
 				3C292E7F1CE6DD810053E5B5 /* LaunchScreen.storyboard */,
 				3C292E821CE6DD810053E5B5 /* Info.plist */,
+				6D01CD191CE71B990006A672 /* SweatOut-Bridging-Header.h */,
 			);
 			path = SweatOut;
 			sourceTree = "<group>";
@@ -198,6 +205,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C292E791CE6DD800053E5B5 /* ViewController.swift in Sources */,
+				6D01CD1B1CE71B990006A672 /* BLEBaseClass.m in Sources */,
 				3C292E771CE6DD800053E5B5 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -327,10 +335,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = SweatOut/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "jp.next-group-HanawaTakuro.SweatOut";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SweatOut/SweatOut-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -338,10 +349,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = SweatOut/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "jp.next-group-HanawaTakuro.SweatOut";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SweatOut/SweatOut-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -388,6 +401,7 @@
 				3C292E921CE6DD810053E5B5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3C292E931CE6DD810053E5B5 /* Build configuration list for PBXNativeTarget "SweatOutTests" */ = {
 			isa = XCConfigurationList;
@@ -396,6 +410,7 @@
 				3C292E951CE6DD810053E5B5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
