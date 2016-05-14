@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreBluetooth
+import Social
 
 class ViewController: UIViewController, BLEDeviceClassDelegate {
 
@@ -21,8 +22,21 @@ class ViewController: UIViewController, BLEDeviceClassDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         blBase.scanDevices(nil)
         blDevice = nil
+        
+        connect()
+    }
+    
+    @IBAction func tappedButton(sender: AnyObject) {
+        let tweetView = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
+        
+        tweetView.setInitialText("Twitter Test from Swift")
+        
+//        myComposeView.addImage(UIImage(named: "oouchi.jpg"))
+        // myComposeViewの画面遷移.
+        self.presentViewController(tweetView, animated: true, completion: nil)
     }
 
     override func didReceiveMemoryWarning() {
