@@ -5,6 +5,8 @@ use_frameworks!
 
 target 'SweatOut' do
 
+  pod 'FillableLoaders', '~>1.2.6'
+
 end
 
 target 'SweatOutTests' do

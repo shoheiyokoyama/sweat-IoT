@@ -17,8 +17,8 @@ DerivedData
 *.xcuserstate
 
 # CocoaPod
-Pods/*
-Podfile.lock
+SweatOut/Pods/*
+SweatOut/Podfile.lock
 
 # others
 *.swp
