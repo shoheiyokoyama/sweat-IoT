@@ -4,4 +4,3 @@
 
 
 #import "BLEBaseClass.h"
-#import <CoreBluetooth/CoreBluetooth.h>
