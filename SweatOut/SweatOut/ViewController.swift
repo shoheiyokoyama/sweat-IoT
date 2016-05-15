@@ -43,14 +43,6 @@ class ViewController: UIViewController, BLEDeviceClassDelegate {
     
     @IBAction func tappedButton(sender: AnyObject) {
         self.connect()
-
-//        let tweetView = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
-//
-//        tweetView.setInitialText("Twitter Test from Swift")
-//        
-//        myComposeView.addImage(UIImage(named: "oouchi.jpg"))
-//        // myComposeViewの画面遷移.
-//        self.presentViewController(tweetView, animated: true, completion: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -111,20 +103,28 @@ class ViewController: UIViewController, BLEDeviceClassDelegate {
     }
 }
 
+extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
+    func startCamera() {
 
+        let sourceType = UIImagePickerControllerSourceType.Camera
+        if !UIImagePickerController.isSourceTypeAvailable(sourceType) { return }
 
+        let cameraPicker = UIImagePickerController()
+        cameraPicker.sourceType = sourceType
+        cameraPicker.delegate = self
+        self.presentViewController(cameraPicker, animated: true, completion: nil)
+    }
 
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
 
+        // TODO: Do Something with Twitter
+        let tweetView = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
+        tweetView.setInitialText("Twitter Test from Swift")
+        tweetView.addImage(image)
+        self.presentViewController(tweetView, animated: true, completion: nil)
 
-
-
-
-
-
-
-
-
-
-
-
+        picker.dismissViewControllerAnimated(true, completion: nil)
+        UIImageWriteToSavedPhotosAlbum(image, self, nil, nil)
+    }
+}
