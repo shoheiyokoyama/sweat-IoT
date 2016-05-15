@@ -149,10 +149,19 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
         
-        // TODO: Do Something with Twitter
         picker.dismissViewControllerAnimated(true, completion: nil)
-        UIImageWriteToSavedPhotosAlbum(image, self, nil, nil)
-        
-        showTweetAlertWithImage(image)
+
+        let logoImage = UIImage(named: "SWEATOUT-logo-1")!
+        let shirtImage = UIImage(named: "SWEATOUT-photo-1")!
+
+        UIGraphicsBeginImageContext(image.size)
+        image.drawInRect(CGRect(x: 0.0, y: 0.0, width: image.size.width, height: image.size.height))
+        shirtImage.drawInRect(CGRect(x: -800, y: -900, width: 5000, height: 5000))
+        logoImage.drawInRect(CGRect(x: 2100, y: 3200, width: 1000, height: 1000))
+        let mergeImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext()
+
+        UIImageWriteToSavedPhotosAlbum(mergeImage, self, nil, nil)
+        showTweetAlertWithImage(mergeImage)
     }
 }
