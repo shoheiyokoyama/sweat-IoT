@@ -11,7 +11,7 @@ import CoreBluetooth
 import Social
 import FillableLoaders
 
-class ViewController: UIViewController, BLEDeviceClassDelegate {
+class ViewController: UIViewController {
 
     let uuidVspService = "569a1101-b87f-490c-92cb-11ba5ea5167c"
     let uuidRX = "569a2001-b87f-490c-92cb-11ba5ea5167c"
@@ -20,42 +20,54 @@ class ViewController: UIViewController, BLEDeviceClassDelegate {
     var blBase = BLEBaseClass()
     var blDevice: BLEDeviceClass?
     
+    var loader = WavesLoader()
+        
     override func viewDidLoad() {
         super.viewDidLoad()
 
         blBase.scanDevices(nil)
         blDevice = nil
+        
+        NSTimer.scheduledTimerWithTimeInterval( 2.5, target: self, selector:#selector(ViewController.connect), userInfo: nil, repeats: false )
+
     }
 
     override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+//        setupLoader()
+    }
+    
+    func setupLoader() {
         let path = CGPathCreateMutable()
         CGPathMoveToPoint(path, nil, 50, 50)
-        CGPathAddLineToPoint(path, nil, 70, 200)
-        CGPathAddLineToPoint(path, nil, 170, 200)
+        CGPathAddLineToPoint(path, nil, 70, 150)
+        CGPathAddLineToPoint(path, nil, 170, 150)
         CGPathAddLineToPoint(path, nil, 190, 50)
         CGPathAddLineToPoint(path, nil, 50, 50)
         CGPathCloseSubpath(path)
-
-        let loader = WavesLoader.createLoaderWithPath(path: path)
+        
+        loader = WavesLoader.createLoaderWithPath(path: path)
         loader.loaderColor = UIColor.blueColor()
+        loader.progressBased = true
+        loader.progress = 0.0
         loader.showLoader()
     }
     
     @IBAction func tappedButton(sender: AnyObject) {
-        self.connect()
-
-//        let tweetView = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
-//
-//        tweetView.setInitialText("Twitter Test from Swift")
-//        
-//        myComposeView.addImage(UIImage(named: "oouchi.jpg"))
-//        // myComposeViewの画面遷移.
-//        self.presentViewController(tweetView, animated: true, completion: nil)
+        startCamera()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func showTweetAlertWithImage(image: UIImage) {
+        let tweetView = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
+        tweetView.setInitialText("Twitter Test from Swift")
+        tweetView.addImage(image)
+        self.presentViewController(tweetView, animated: true, completion: nil)
     }
     
     func connect() {
@@ -85,10 +97,23 @@ class ViewController: UIViewController, BLEDeviceClassDelegate {
         }
     }
     
-    //------------------------------------------------------------------------------------------
-    // BLEDeviceClassDelegate
-    // readもしくはindicateもしくはnotifyにてキャラクタリスティックの値を読み込んだ時に呼ばれる
-    //------------------------------------------------------------------------------------------
+    func increseWater(byte: UInt8) {
+        print(byte)
+        
+        if byte > 170 {
+            loader.progress = 1
+            loader.removeLoader()
+        } else if byte > 150 {
+            loader.progress = 0.6
+        } else if byte > 130 {
+            loader.progress = 0.3
+        }
+    }
+}
+
+
+extension ViewController: BLEDeviceClassDelegate {
+    
     func didUpdateValueForCharacteristic(device: BLEDeviceClass!, characteristic: CBCharacteristic!) {
         guard let vld = blDevice else { return }
         
@@ -105,26 +130,31 @@ class ViewController: UIViewController, BLEDeviceClassDelegate {
                 guard let data = characteristic.value else { return }
                 var bytes = [UInt8](count:data.length, repeatedValue:0)
                 data.getBytes(&bytes, length:data.length)
-                print(bytes[0])
+                increseWater(bytes[0])
             }
         }
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func startCamera() {
+        
+        let sourceType = UIImagePickerControllerSourceType.Camera
+        if !UIImagePickerController.isSourceTypeAvailable(sourceType) { return }
+        
+        let cameraPicker = UIImagePickerController()
+        cameraPicker.sourceType = sourceType
+        cameraPicker.delegate = self
+        self.presentViewController(cameraPicker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+        
+        // TODO: Do Something with Twitter
+        picker.dismissViewControllerAnimated(true, completion: nil)
+        UIImageWriteToSavedPhotosAlbum(image, self, nil, nil)
+        
+        showTweetAlertWithImage(image)
+    }
+}
