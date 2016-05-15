@@ -137,12 +137,10 @@ extension ViewController: BLEDeviceClassDelegate {
 }
 
 extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
     func startCamera() {
-        
         let sourceType = UIImagePickerControllerSourceType.Camera
         if !UIImagePickerController.isSourceTypeAvailable(sourceType) { return }
-        
+
         let cameraPicker = UIImagePickerController()
         cameraPicker.sourceType = sourceType
         cameraPicker.delegate = self
