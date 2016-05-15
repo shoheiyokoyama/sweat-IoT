@@ -99,20 +99,32 @@ class ViewController: UIViewController {
         }
     }
     
+    private func sendData(val: Int) {
+        guard let device = blDevice else { return }
+        
+        let rx = device.getCharacteristic(uuidVspService, characteristic: uuidRX)
+        var value: Int = val
+        let data = NSData(bytes: &value, length: sizeof(Int))
+        device.writeWithoutResponse(rx, value: data)
+    }
+    
     func increseWater(byte: UInt8) {
         print(byte)
         
         if byte > 170 {
             increseWaterTime = NSDate()
             increse(1.0)
+            sendData(3)
             loader.removeLoader()
             startCamera()
         } else if byte > 150 {
             increseWaterTime = NSDate()
             increse(0.6)
+            sendData(2)
         } else if byte > 130 {
             increseWaterTime = NSDate()
             increse(0.3)
+            sendData(1)
         }
     }
     
@@ -161,6 +173,9 @@ extension ViewController: BLEDeviceClassDelegate {
                 var bytes = [UInt8](count:data.length, repeatedValue:0)
                 data.getBytes(&bytes, length:data.length)
                 increseWater(bytes[0])
+                
+//                uint8_t*	buf = (uint8_t*)[characteristic.value bytes]; //bufに結果が入る
+//                _textField.text = [NSString stringWithFormat:@"%d", buf[0]];
             }
         }
     }
