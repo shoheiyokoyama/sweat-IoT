@@ -21,7 +21,9 @@ class ViewController: UIViewController {
     var blDevice: BLEDeviceClass?
     
     var loader = WavesLoader()
-        
+    
+    var increseWaterTime = NSDate()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -35,7 +37,7 @@ class ViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-//        setupLoader()
+        setupLoader()
     }
     
     func setupLoader() {
@@ -101,13 +103,41 @@ class ViewController: UIViewController {
         print(byte)
         
         if byte > 170 {
-            loader.progress = 1
+            increseWaterTime = NSDate()
+            increse(1.0)
             loader.removeLoader()
+            startCamera()
         } else if byte > 150 {
-            loader.progress = 0.6
+            increseWaterTime = NSDate()
+            increse(0.6)
         } else if byte > 130 {
-            loader.progress = 0.3
+            increseWaterTime = NSDate()
+            increse(0.3)
         }
+    }
+    
+    private func increse(progress: CGFloat) {
+        if isShortIncrese() {
+//            sleep(2)
+        }
+        
+        loader.progress = progress
+    }
+    
+    private func isShortIncrese() -> Bool {
+        if getCalclatedVoiceInputTime() > 3 {
+            return false
+        }
+        return true
+    }
+    
+    private func getCalclatedVoiceInputTime() -> Float {
+        let now = NSDate()
+        let elapdedTime = now.timeIntervalSinceDate(increseWaterTime)
+        let hour = Int(elapdedTime / 3600)
+        let minutes = Int((elapdedTime - Double(hour)) / 60)
+        let second = elapdedTime - (Double(hour * 3600 + minutes * 60))
+        return Float(second)
     }
 }
 
