@@ -14,14 +14,18 @@ void setup()
 
 void loop()
 {  
-  digitalWrite(LED, HIGH);
+//  digitalWrite(LED, HIGH);
 
   // 受信処理
   if(Serial.available() > 0){
     rsvData = Serial.read();
     if(rsvData == 1){
       digitalWrite(LED, HIGH);
-    }else if(rsvData == 0){
+    }else if(rsvData == 2){
+      //
+    } else if(rsvData == 3) {
+      //
+    } else {
       digitalWrite(LED, LOW);
     }
   }
