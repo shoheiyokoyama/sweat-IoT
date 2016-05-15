@@ -17,6 +17,8 @@ class ViewController: UIViewController {
     let uuidRX = "569a2001-b87f-490c-92cb-11ba5ea5167c"
     let uuidTX = "569a2000-b87f-490c-92cb-11ba5ea5167c"
     
+    var moving = false
+    
     var blBase = BLEBaseClass()
     var blDevice: BLEDeviceClass?
     
@@ -30,13 +32,14 @@ class ViewController: UIViewController {
         blBase.scanDevices(nil)
         blDevice = nil
         
-        NSTimer.scheduledTimerWithTimeInterval( 2.5, target: self, selector:#selector(ViewController.connect), userInfo: nil, repeats: false )
+        NSTimer.scheduledTimerWithTimeInterval( 3.5, target: self, selector:#selector(ViewController.connect), userInfo: nil, repeats: false )
 
     }
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
+        moving = false
         setupLoader()
     }
     
@@ -57,7 +60,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tappedButton(sender: AnyObject) {
-        startCamera()
+//        startCamera()
     }
 
     override func didReceiveMemoryWarning() {
@@ -111,21 +114,43 @@ class ViewController: UIViewController {
     func increseWater(byte: UInt8) {
         print(byte)
         
-        if byte > 170 {
+        if byte > 150 {
             increseWaterTime = NSDate()
             increse(1.0)
-            sendData(3)
+//            sendData(3)
             loader.removeLoader()
-            startCamera()
-        } else if byte > 150 {
+            
+            if moving {return}
+            
+            let storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
+            let lastViewController = storyboard.instantiateViewControllerWithIdentifier("LastViewController") as! LastViewController
+            self.navigationController?.pushViewController(lastViewController, animated: true)
+            moving = true
+//            NSTimer.scheduledTimerWithTimeInterval( 1.5, target: self, selector:#selector(ViewController.move), userInfo: nil, repeats: false )
+            
+//            let storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
+//            let lastViewController = storyboard.instantiateViewControllerWithIdentifier("LastViewController") as! LastViewController
+//            self.navigationController?.pushViewController(lastViewController, animated: true)
+            
+            
+//            startCamera()
+//            disconnect()
+        } else if byte > 130 {
             increseWaterTime = NSDate()
             increse(0.6)
             sendData(2)
-        } else if byte > 130 {
+        } else if byte > 110 {
             increseWaterTime = NSDate()
             increse(0.3)
             sendData(1)
         }
+    }
+    
+    func move() {
+        let storyboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
+        let lastViewController = storyboard.instantiateViewControllerWithIdentifier("LastViewController") as! LastViewController
+        self.navigationController?.pushViewController(lastViewController, animated: true)
+        moving = true
     }
     
     private func increse(progress: CGFloat) {
